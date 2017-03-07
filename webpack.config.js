@@ -5,7 +5,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var config = {
 	entry: {
-		main: './src/index.js',
+		main: './src/index.jsx',
 		vendor: ['react', 'react-dom']
 	},
 	output: {
@@ -20,8 +20,16 @@ var config = {
 				use: ['css-loader', 'sass-loader']
 			})
 		}, {
-			test: /\.js$/,
-			use: 'babel-loader'
+			test: /\.(js|jsx)$/,
+			use: [{
+				loader: 'jsx-loader'
+			}, {
+				loader: 'babel-loader',
+				options: {
+					presets: [[ 'es2015', { modules: false }], 'react', 'stage-3'],
+					plugins: ['syntax-dynamic-import']
+				}
+			}]
 		}]
 	},
 	plugins: [
